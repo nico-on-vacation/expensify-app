@@ -3,7 +3,7 @@
 //* would always create an error
 
 //* With with import the actual moment lib gets imported
-const moment = require.requireActual('moment')
+const moment = jest.requireActual('moment')
 
 export default (timestamp = 0) => {
     return moment(timestamp)

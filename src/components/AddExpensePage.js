@@ -1,7 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import ExpenseForm from './ExpenseForm'
-import { addExpense } from '../actions/expenses'
+import { startAddExpense } from '../actions/expenses'
 
 export class AddExpensePage extends React.Component{
   onSubmit = (expense) => {
@@ -9,7 +9,7 @@ export class AddExpensePage extends React.Component{
     // * With the mapDispatchToProps setup the code becomes
     // * more testable, as there is not a function inside a
     // * function that is called 
-    this.props.addExpense(expense)
+    this.props.startAddExpense(expense)
     this.props.history.push('/') //Switching over to dashboard
   }
 
@@ -26,7 +26,7 @@ export class AddExpensePage extends React.Component{
 }
 
 const mapDispatchToProps = (dispatch) => ({
-  addExpense: (expense) => dispatch(addExpense(expense))
+  startAddExpense: (expense) => dispatch(startAddExpense(expense))
 })
 
 export default connect(undefined, mapDispatchToProps)(AddExpensePage)

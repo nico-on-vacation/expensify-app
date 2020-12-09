@@ -1,22 +1,30 @@
-import { v4 as uuidv4 } from 'uuid'
+import database from '../firebase/firebase'
 
 // ADD_EXPENSE
-const addExpense = (
-    {
-        description = '', 
-        note = '',
-        amount = 0, 
-        createdAt = 0
-    } = {}) => ({
+const addExpense = (expense) => ({
         type:'ADD_EXPENSE',
-        expense: {
-            id: uuidv4(),
-            description,
-            note,
-            amount,
-            createdAt
-        }
+        expense
 })
+
+const startAddExpense = (expenseData = {}) => {
+    return (dispatch) => { //This will get called internally by redux, that's where the dispatch comes from
+        const {
+            description = '', 
+            note = '',
+            amount = 0, 
+            createdAt = 0
+        } = expenseData
+
+        const expense = {description, note, amount, createdAt}
+
+        return database.ref('expenses').push(expense).then((reference) => {
+            dispatch(addExpense({
+                id: reference.key, //This is the id set in firebase
+                ...expense
+            }))
+        })
+    }
+}
 
 // REMOVE_EXPENSE
 const removeExpense = ({id}) => ({
@@ -31,4 +39,4 @@ const editExpense = (id, updates) => ({
     updates
 })
 
-export {addExpense, removeExpense, editExpense}
+export {addExpense, removeExpense, editExpense, startAddExpense}

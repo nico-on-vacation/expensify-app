@@ -54,15 +54,13 @@ test('should edit an expense', () => {
 })
 
 test('should not an expense when id not found', () => {
-    test('should edit an expense', () => {
-        const updates = { description: 'Motorcycle' }
-    
-        const action = {
-            type: 'EDIT_EXPENSE',
-            id: '-1abc',
-            updates
-        }
-        const state = expensesReducer(expenses, action)
-        expect(state).toEqual(expenses)
-    })
+    const updates = { description: 'Motorcycle' }
+
+    const action = {
+        type: 'EDIT_EXPENSE',
+        id: '-1abc',
+        updates
+    }
+    const state = expensesReducer(expenses, action)
+    expect(state).toEqual(expenses)
 })
