@@ -1,5 +1,6 @@
 import configureMockStore from 'redux-mock-store'
 import thunk from 'redux-thunk'
+import "regenerator-runtime/runtime"
 import { addExpense, startAddExpense, editExpense, removeExpense } from '../../actions/expenses'
 import expenses from '../fixtures/expenses'
 
@@ -12,33 +13,6 @@ test('should setup remove expense action object', () => {
         id: '123abc'
     })
 })
-
-test('should setup add expense action object with input values', () => {
-    const action = addExpense(expenses[0])
-
-    expect(action).toEqual({
-        type: 'ADD_EXPENSE',
-        expense: expenses[0]
-    })
-})
-
-// test('should add expense to database and store', (done) => {
-//     const store = createMockStore({})
-//     const expenseData = {
-//         description: 'mouse',
-//         amount: 3000,
-//         note: 'This one is better',
-//         createdAt: '75384'
-//     }
-//     store.dispatch(startAddExpense(expenseData)).then(() => {
-//         expect(1).toBe(2)
-//         done()
-//     })
-// })
-
-// test('should add expense to database and store', (done) => {
-    
-// })
 
 test('should setup edit expense action object', () => {
     const action = editExpense(
@@ -56,3 +30,30 @@ test('should setup edit expense action object', () => {
         }
     })
 })
+
+test('should setup add expense action object with input values', () => {
+    const action = addExpense(expenses[0])
+
+    expect(action).toEqual({
+        type: 'ADD_EXPENSE',
+        expense: expenses[0]
+    })
+})
+
+test('should add expense to database and store', async () => {
+    const store = createMockStore({})
+    const expenseData = {
+        description: 'mouse',
+        amount: 3000,
+        note: 'This one is better',
+        createdAt: '75384'
+    }
+    
+    store.dispatch(startAddExpense(expenseData))
+    const actions = store.getActions()
+    console.log(actions)
+})
+
+// test('should add expense to database and store', (done) => {
+    
+// })

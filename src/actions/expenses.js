@@ -7,7 +7,7 @@ const addExpense = (expense) => ({
 })
 
 const startAddExpense = (expenseData = {}) => {
-    return (dispatch) => { //This will get called internally by redux, that's where the dispatch comes from
+    return async (dispatch) => { //This will get called internally by redux, that's where the dispatch comes from
         const {
             description = '', 
             note = '',
@@ -17,12 +17,17 @@ const startAddExpense = (expenseData = {}) => {
 
         const expense = {description, note, amount, createdAt}
 
-        return database.ref('expenses').push(expense).then((reference) => {
-            dispatch(addExpense({
-                id: reference.key, //This is the id set in firebase
-                ...expense
-            }))
-        })
+        try{
+            const reference = await database.ref('expenses').push(expense)
+            dispatch(
+                addExpense({
+                    id: reference.key, //This is the id set in firebase
+                    ...expense
+                })
+            )
+        }catch(e) {
+            console.log('Error while push:',e)
+        }
     }
 }
 
