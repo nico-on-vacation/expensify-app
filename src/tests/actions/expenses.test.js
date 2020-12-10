@@ -1,10 +1,10 @@
 import configureMockStore from 'redux-mock-store'
 import thunk from 'redux-thunk'
 import "regenerator-runtime/runtime"
-import { addExpense, startAddExpense, editExpense, removeExpense } from '../../actions/expenses'
+import { addExpense, editExpense, removeExpense, setExpenses, startAddExpense, startSetExpenses } from '../../actions/expenses'
 import expenses from '../fixtures/expenses'
-import doWork from '../../playground/async-await'
-import database from '../../firebase/firebase'
+import expensesReducer from '../../reducers/expenses'
+// import database from '../../firebase/firebase'
 
 //! NO FIREBASE TESTS AS THEY FAIL
 //! IN THE startAddExepense() function the database call never returns
@@ -47,11 +47,40 @@ test('should setup add expense action object with provided values', () => {
     })
 })
 
-// test('should add expense to database and store', () => {
-    //! Not even this works by just trying to interact with firebase solely
-    //! return database.ref('Testing').set('This is a test').then(() => {
-    //!     console.log('finished')
-    //! })
+test('should setup set expense action object with data', () => {
+    const actions = setExpenses(expenses)
+    expect(actions).toEqual({
+        type:'SET_EXPENSES',
+        expenses
+    })
+})
+
+test('should set expenses', () => {
+    const action = {
+        type: 'SET_EXPENSES',
+        expenses: [expenses[1]]
+    }
+    const state = expensesReducer(expenses, action)
+    expect(state).toEqual([expenses[1]])
+})
+
+// test('should fetch the data from firebase', (done) => {
+//     const store = createMockStore({})
+//     store.dispatch(startSetExpenses()).then(() => {
+//         const actions = store.getActions()
+//         expect(actions[0]).toEqual({
+//             type:'SET_EXPENSES',
+//             expenses
+//         })
+//         done()
+//     })
+// })
+
+// test('should add expense to database and store', async () => {
+    // ! Not even this works by just trying to interact with firebase solely
+    // return database.ref('Testing').set('This is a test').then(() => {
+    //     console.log('finished')
+    // })
 
 
     // const store = createMockStore({});
