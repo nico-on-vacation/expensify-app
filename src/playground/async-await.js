@@ -11,11 +11,10 @@ const add = (a, b) => {
     })
 }
 
-const doWork = async() => {
+export default async () => {
     const sum1 = await add(1,4)
     const sum2 = await add(sum1,4)
-    const returnSave = await database.ref('sum').set(sum2)
-    console.log(returnSave)
+    // const returnSave = await database.ref('sum').set(sum2)
+    return sum2
 }
 
-doWork()

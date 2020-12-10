@@ -5,12 +5,12 @@
   "author": "Andrew Mead",
   "license": "MIT",
   "scripts": {
-    "build:dev": "webpack",
+    "build:dev": "env-cmd -f ./config/dev.env webpack",
     "build:prod": "webpack --env production",
-    "dev-server": "webpack serve",
-    "test": "jest --config=jest.config.json --watch",
+    "dev-server": "env-cmd -f ./config/dev.env webpack serve",
+    "test": "env-cmd -f ./config/test.env jest --config=jest.config.json --watch",
     "start": "node server/server.js",
-    "heroku-postbuild": "yarn run build:prod"
+    "heroku-postbuild": "npm run build:prod"
   },
   "dependencies": {
     "@babel/cli": "^7.12.8",
@@ -49,6 +49,7 @@
   },
   "devDependencies": {
     "@babel/plugin-syntax-top-level-await": "^7.12.1",
+    "env-cmd": "^10.1.0",
     "enzyme": "^3.11.0",
     "enzyme-adapter-react-16": "^1.15.5",
     "enzyme-to-json": "^3.6.1",
