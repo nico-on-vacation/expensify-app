@@ -4,10 +4,10 @@ import "regenerator-runtime/runtime"
 import {EditExpensePage} from '../../components/EditExpensePage'
 import expenses from '../fixtures/expenses'
 
-let editExpense, startRemoveExpense, history, wrapper
+let startEditExpense, startRemoveExpense, history, wrapper
 
 beforeEach(() => {
-    editExpense = jest.fn()
+    startEditExpense = jest.fn()
     startRemoveExpense = jest.fn()
     history = {
         push: jest.fn()
@@ -15,7 +15,7 @@ beforeEach(() => {
     wrapper = shallow(<EditExpensePage 
         expense={expenses[0]} 
         history={history} 
-        editExpense={editExpense} 
+        startEditExpense={startEditExpense} 
         startRemoveExpense={startRemoveExpense}
     />)
 })
@@ -24,7 +24,7 @@ test('should render EditExpensePage correctly', () => {
     expect(wrapper).toMatchSnapshot()
 })
 
-test('should handle removeExpense', () => {
+test('should handle startRemoveExpense', () => {
     //* prop('')() is not needed as the onClick handler does not take in any arguments
     //* so just triggering the click with simulate is enough
     wrapper.find('button').simulate('click')
@@ -32,8 +32,8 @@ test('should handle removeExpense', () => {
     expect(history.push).toHaveBeenLastCalledWith('/')
 })
 
-test('should handle editExpense', () => {
+test('should handle startEditExpense', () => {
     wrapper.find('ExpenseForm').prop('onSubmit')(expenses[0])
-    expect(editExpense).toHaveBeenLastCalledWith(expenses[0].id,expenses[0])
+    expect(startEditExpense).toHaveBeenLastCalledWith(expenses[0].id,expenses[0])
     expect(history.push).toHaveBeenLastCalledWith('/')
 })

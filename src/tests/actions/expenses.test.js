@@ -1,13 +1,13 @@
+import "regenerator-runtime/runtime"
 import configureMockStore from 'redux-mock-store'
 import thunk from 'redux-thunk'
-import "regenerator-runtime/runtime"
 import { addExpense, editExpense, removeExpense, setExpenses, startAddExpense, startSetExpenses } from '../../actions/expenses'
 import expenses from '../fixtures/expenses'
 import expensesReducer from '../../reducers/expenses'
 // import database from '../../firebase/firebase'
 
 //! NO FIREBASE TESTS AS THEY FAIL
-//! IN THE startAddExepense() function the database call never returns
+//! IN THE startAddExpense() function the database call never returns
 //! If the database call is replaced with another promise-returning function it works
 //! So my guess is firebase does not work somehow in the test as data would be pushed
 //! to the database
