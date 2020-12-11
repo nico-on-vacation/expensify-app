@@ -7,7 +7,8 @@ const addExpense = (expense) => ({
 })
 
 const startAddExpense = (expenseData = {}) => {
-    return async (dispatch) => { //This will get called internally by redux, that's where the dispatch comes from
+    return async (dispatch, getState) => { //This will get called internally by redux, that's where the dispatch comes from
+        const uid = getState().auth.uid
         const {
             description = '', 
             note = '',
@@ -17,7 +18,7 @@ const startAddExpense = (expenseData = {}) => {
 
         const expense = {description, note, amount, createdAt}
 
-        database.ref('expenses').push(expense).then((reference) => {
+        database.ref(`users/${uid}/expenses`).push(expense).then((reference) => {
             dispatch(addExpense({
                 id: reference.key, //This is the id set in firebase
                 ...expense
@@ -33,8 +34,9 @@ const removeExpense = ({id} = {}) => ({
 })
 
 const startRemoveExpense = ({id} = {}) => {
-    return async (dispatch) => {
-        await database.ref(`expenses/${id}`).remove()
+    return async (dispatch, getState) => {
+        const uid = getState().auth.uid
+        await database.ref(`users/${uid}/expenses/${id}`).remove()
         dispatch(removeExpense({id}))
     }
 }
@@ -47,8 +49,9 @@ const editExpense = (id, updates) => ({
 })
 
 const startEditExpense = (id, updates) => {
-    return async (dispatch) => {
-        await database.ref(`expenses/${id}`).update(updates)
+    return async (dispatch, getState) => {
+        const uid = getState().auth.uid
+        await database.ref(`users/${uid}/expenses/${id}`).update(updates)
         dispatch(editExpense(id,updates))
     }
 }
@@ -60,9 +63,10 @@ const setExpenses = (expenses) => ({
 })
 
 const startSetExpenses = () => {
-    return async (dispatch) => {
+    return async (dispatch, getState) => {
+        const uid = getState().auth.uid
         const expenses = []
-        const snapshot = await database.ref('expenses').once('value')
+        const snapshot = await database.ref(`users/${uid}/expenses`).once('value')
             
         snapshot.forEach((childSnapshot) => {
             expenses.push({
