@@ -5,10 +5,6 @@ import { startAddExpense } from '../actions/expenses'
 
 export class AddExpensePage extends React.Component{
   onSubmit = (expense) => {
-    // props.dispatch(addExpense(expense))
-    // * With the mapDispatchToProps setup the code becomes
-    // * more testable, as there is not a function inside a
-    // * function that is called 
     this.props.startAddExpense(expense)
     this.props.history.push('/') //Switching over to dashboard
   }
@@ -16,15 +12,24 @@ export class AddExpensePage extends React.Component{
   render() {
     return (
       <div>
-        <h1>Add Expense</h1>
-        <ExpenseForm 
-          onSubmit={this.onSubmit}
-        />
+        <div className="page-header">
+          <div className="content-container">
+            <h1 className="page-header__title">Add Expense</h1>
+          </div>
+        </div>
+        <div className="content-container">
+          <ExpenseForm 
+            onSubmit={this.onSubmit}
+          />
+        </div>
       </div>
     )
   }
 }
 
+// * With the mapDispatchToProps setup the code becomes
+// * more testable, as there is not a function inside a
+// * function that is called 
 const mapDispatchToProps = (dispatch) => ({
   startAddExpense: (expense) => dispatch(startAddExpense(expense))
 })
